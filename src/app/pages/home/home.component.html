@@ -1,0 +1,26 @@
+<div class="home-container">
+  <h1 class="home-title">Nolan</h1>
+
+  <mat-stepper [linear]="true" animationDuration="500"  #stepper>
+    <mat-step [completed]="isSelectedMovie()">
+      <div class="step-header">Escolha seu filme</div>
+      <div class="movies-container content-container">
+        <div *ngFor="let movie of movieList;">
+          <movie-card
+            [movie]="movie"
+            (click)="setSelectedMovie(movie)"
+          />
+        </div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <div class="step-header">Escolha sua sessão</div>
+      <div class="sessions-container content-container">
+          {{selectedMovie.name}}
+      </div>
+    </mat-step>
+    <mat-step>
+      conteúdo 3
+    </mat-step>
+  </mat-stepper>
+</div>

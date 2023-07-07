@@ -1,0 +1,84 @@
+.card-container {
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+  margin: .5rem;
+  padding-bottom: .25rem;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  transition: all 0.1s var(--cubic-bezier);
+  cursor: pointer;
+}
+
+.card-container:hover {
+  transition: all 0.1s var(--cubic-bezier);
+  box-shadow: 0 0 8px 0 var(--dark-gray);
+}
+
+.card-image {
+  object-fit: cover;
+  width: 100%;
+  max-height: 24rem;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.card-info {
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1rem 0;
+  align-items: center;
+}
+
+.card-title {
+  display: flex;
+  font-weight: bold;
+  word-wrap: anywhere;
+  overflow: scroll;
+  text-align: center;
+  cursor: default;
+}
+
+.card-actions {
+  display: flex;
+  gap: .25rem;
+  position: relative;
+  justify-content: flex-end;
+  padding: 0 1rem 1rem;
+}
+
+.room-option-button {
+  color: var(--red);
+  height: fit-content;
+  width: fit-content;
+  padding: .25rem;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  border: 2px solid var(--red);
+  cursor: pointer;
+  transition: all .1s;
+}
+
+.room-option-button:hover {
+  color: var(--white);
+  background-color: var(--red);
+  border: 2px solid rgba(0, 0, 0, 0);
+  transition: all .1s;
+}
+
+@media screen and (max-width: 1918px) {
+  .card-title {
+    font-size: 0.75rem;
+  }
+
+  .mat-icon {
+    font-size: .75rem;
+  }
+}
+
+@media screen and (min-width: 1919px) {
+  .mat-icon {
+    font-size: 1.5rem;
+  }
+}
+

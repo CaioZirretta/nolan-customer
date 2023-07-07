@@ -1,4 +1,72 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* Blue Pallete */
+  --cyan: #78CDD7;
+  --light-blue: #44A1A0;
+  --blue: #247B7B;
+  --dark-blue: #0D5C63;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+  /* Red Pallete */
+  --dark-red: #4f000b;
+  --red: #720026;
+  --light-red: #ce4257;
+  --pale-red: #f16b7c;
+  --light-orange: #FF7F51;
+  --yellow: #ff9b54;
+
+  /* Utility Pallete */
+  --dark-gray: #808080;
+  --gray: #A9A9A9;
+  --light-gray: #C5C6D0;
+  --extra-light-gray: #E3E4EB;
+  --pale-gray: #F1F2F6;
+  --off-white: #FCFCFC;
+  --white: #FFFFFA;
+  --ghost-white: #F8F7FF;
+
+  --border-radius: 6px;
+
+  --cubic-bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+html, body {
+  height: 100%;
+  overflow-y: hidden;
+}
+
+body {
+  margin: 2rem 8rem 0;
+  font-family: "VarelaRound-Regular", sans-serif !important;
+  background-image: url("/assets/img/home-background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+input, button {
+  font-family: "VarelaRound-Regular", sans-serif;
+}
+
+button {
+  font-weight: bold;
+}
+
+/* Scrollbar */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4f000b #ffffff;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #4f000b;
+  border-radius: 12px;
+  border: 3px solid #ffffff;
+}
