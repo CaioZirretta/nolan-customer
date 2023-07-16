@@ -1,9 +1,9 @@
 <div class="home-container">
   <h1 class="home-title">Nolan</h1>
 
-  <mat-stepper [linear]="true" animationDuration="500"  #stepper>
-    <mat-step [completed]="isSelectedMovie()">
-      <div class="step-header">Escolha seu filme</div>
+  <mat-stepper [linear]="true" animationDuration="500" #stepper>
+    <mat-step [completed]="isMovieSelected()">
+      <h2 class="step-header">Escolha seu filme</h2>
       <div class="movies-container content-container">
         <div *ngFor="let movie of movieList;">
           <movie-card
@@ -13,14 +13,62 @@
         </div>
       </div>
     </mat-step>
-    <mat-step>
-      <div class="step-header">Escolha sua sessão</div>
-      <div class="sessions-container content-container">
-          {{selectedMovie.name}}
+
+    <mat-step [completed]="isSessionSelected()">
+      <h2 class="step-header">Escolha sua sessão</h2>
+
+      <div class="content-container sessions-container">
+
+        <div class="selected-movie-container">
+          <h1 class="selected-movie-title">{{selectedMovie.name}}</h1>
+
+          <div class="selected-movie-info">
+            <p>{{selectedMovie.synopsis_expanded}}</p>
+          </div>
+        </div>
+
+        <div class="session-info-container">
+          <h2 class="session-info-title">Sessões disponíveis:</h2>
+
+          <div class="session-info" *ngFor="let info of selectedMovieSessions">
+            <div class="session-info-day">{{formatDateToDayMonthView(info.day)}}</div>
+
+            <div *ngIf="info.sessions.length > 0; else noSessionsBlock">
+              <button
+                *ngFor="let session of info.sessions"
+                class="session-info-time"
+                (click)="setSelectedSession(session)"
+              >
+                {{formatDateToTimeView(session.time)}}
+              </button>
+            </div>
+
+            <ng-template #noSessionsBlock class="no-session-message">Nenhuma sessão encontrada.</ng-template>
+          </div>
+        </div>
       </div>
     </mat-step>
-    <mat-step>
-      conteúdo 3
+
+    <mat-step [completed]="isSessionSelected()">
+      <h2 class="step-header">Escolha seus assentos</h2>
+      <div class="content-container sits-container">
+        <div class="chosen-sits">
+          <h3 class="chosen-sits-title">Assentos escolhidos:</h3>
+          <div *ngFor="let sit of objectKeys(selectedSits)">
+            <div *ngIf=isSeatBlocked(sit)>{{sit}}</div>
+          </div>
+        </div>
+
+        <div class="sits-grid">
+          <div *ngFor="let sit of objectKeys()">
+            <div
+              class="sit"
+              [ngClass]="selectedSits[sit] === 'blocked' ? 'not-available': null"
+              (click)="toggleSelectedSit(sit, $event)"
+            >{{sit}}</div>
+          </div>
+        </div>
+      </div>
     </mat-step>
   </mat-stepper>
 </div>

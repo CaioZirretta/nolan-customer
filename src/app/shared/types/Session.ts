@@ -8,3 +8,8 @@ export type Session = {
   createdAt?: Date
   updatedAt?: Date
 }
+
+export type SessionsByDay = {
+  day: Date | string,
+  sessions: Session[]
+}
