@@ -13,3 +13,8 @@ export type SessionsByDay = {
   day: Date | string,
   sessions: Session[]
 }
+
+export type CreateReservation = {
+  sessionId: string,
+  sits: string[]
+}

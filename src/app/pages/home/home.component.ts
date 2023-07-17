@@ -5,8 +5,9 @@ import { RoomService } from "../../shared/services/room.service";
 import { MovieService } from "../../shared/services/movie.service";
 import { MatStepper } from "@angular/material/stepper";
 import { Session, SessionsByDay } from "../../shared/types/Session";
-import { DateUtils } from "../../shared/utils/DateUtils";
+import { DateUtils, getDayPTBR } from "../../shared/utils/DateUtils";
 import { Sits } from "../../shared/constants/Sits";
+import { catchError, throwError } from "rxjs";
 
 @Component({
   selector: 'home',
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit {
   protected selectedMovie: Movie = {} as Movie;
   protected selectedMovieSessions: SessionsByDay[] = [];
   protected selectedSession: Session = {} as Session;
-  protected selectedSits: Record<string, boolean | 'blocked'>;
+  protected selectedSits: Record<string, boolean | 'blocked'> = {};
 
   @ViewChild("stepper", { static: true }) stepper: MatStepper;
 
@@ -30,7 +31,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.updateAllLists();
-    this.selectedSits = Sits
+    // this.selectedSits = Sits
   }
 
   protected updateAllLists(): void {
@@ -43,8 +44,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  protected isSeatBlocked(sit: string): boolean{
-    return this.selectedSits[sit] && this.selectedSits[sit] !== 'blocked'
+  protected isSeatBlocked(sit: string): boolean {
+    return this.selectedSits[sit] && this.selectedSits[sit] !== 'blocked';
   }
 
   protected setSelectedMovie(movie: Movie): void {
@@ -70,12 +71,12 @@ export class HomeComponent implements OnInit {
   }
 
   protected toggleSelectedSit(sit: any, s: Event): void {
-    if(this.selectedSits[sit] === 'blocked') return
+    if (this.selectedSits[sit] === 'blocked') return;
 
-    if(this.selectedSits[sit]) {
+    if (this.selectedSits[sit]) {
       (s.target! as HTMLElement).classList.remove('occupied');
       this.selectedSits[sit] = false;
-      return
+      return;
     }
 
     (s.target! as HTMLElement).classList.add('occupied');
@@ -90,7 +91,7 @@ export class HomeComponent implements OnInit {
     return !!this.selectedSession;
   }
 
-  protected isSeatsSelected(): boolean {
+  protected isSitsSelected(): boolean {
     return Object.values(this.selectedSits).includes(true);
   }
 
@@ -132,16 +133,38 @@ export class HomeComponent implements OnInit {
     return (date as string).slice(0, 5);
   }
 
-  private lockBody(): void {
-    const body = this.elementRef.nativeElement.ownerDocument.body;
-    body.style.pointerEvents = 'none';
-    body.style.overflow = 'hidden';
+  protected formatDateToRevisionView(date: string | Date): string {
+    const dateFormatted: Date = new Date(date);
+    const weekDay: string = getDayPTBR(dateFormatted.getDay());
+    const day: number = dateFormatted.getDate();
+    const month: string = (dateFormatted.getMonth() + 1).toString().padStart(2, '0');
+    const hours: number = dateFormatted.getHours() + DateUtils.TimeZone;
+    const minutes: number = dateFormatted.getMinutes();
+
+    return `${weekDay}, ${day}/${month} às ${hours}:${minutes}`;
   }
 
-  private unlockBody(): void {
-    const body = this.elementRef.nativeElement.ownerDocument.body;
-    body.style.pointerEvents = 'all';
-    body.style.overflow = 'visible';
+  protected selectedSitsToList(): string[] {
+    const list: string[] = [];
+
+    Object.keys(this.selectedSits).forEach(sit => {
+      if (this.selectedSits[sit] == true) {
+        list.push(sit);
+      }
+    });
+
+    return list;
+  }
+
+  protected newReservation(): void {
+    const sessionId: string = this.selectedSession.id!;
+    const sits: string[] = this.selectedSitsToList();
+
+    this.sessionService.newReservation(sessionId, sits).pipe(
+      catchError(error => {
+        return throwError(error);
+      })
+    ).subscribe();
   }
 
   protected objectKeys(object: Object = Sits): string[] {

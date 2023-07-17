@@ -5,6 +5,9 @@
   height: 100%;
   user-select: none;
 }
+.home-title{
+  margin-top: 0;
+}
 
 .mat-icon {
   font-size: 4rem;
@@ -16,26 +19,25 @@
   text-align: center;
 }
 
-.content-container {
+.section-container {
   margin-bottom: .5rem;
-  height: calc(100vh - 20rem);
+  height: calc(100vh - 22rem);
   overflow-y: scroll;
 }
 
-.content-container::-webkit-scrollbar {
+.section-container::-webkit-scrollbar {
   width: 12px;
 }
 
 /* Step 1 */
 
 .movies-container {
-  /* Colocar no agrupador das tabs */
+  height: 42rem;
+  overflow-y: scroll;
   margin-top: 1rem;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  /*grid-column-gap: 1rem;*/
-  /*grid-row-gap: 1rem;*/
 }
 
 /* Step 2 */
@@ -157,4 +159,53 @@
   border-radius: var(--border-radius);
   padding: .25rem;
   margin-bottom: .25rem
+}
+
+/* Step 4 */
+
+.revision-container{
+  display: flex;
+  justify-content: center;
+}
+
+.items-label {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  width: 100%;
+  padding: .5rem;
+  font-size: 1.25rem;
+}
+
+.items-label > div{
+  padding: .5rem;
+  word-break: break-word;
+}
+
+.grid-end {
+  text-align:end;
+}
+
+.confirm-button {
+  grid-area: 4 / 1 / 5 / 3;
+  justify-self: end;
+
+  font-size: 1.25rem;
+  color: var(--dark-gray);
+  padding: .25rem;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  border: 2px solid transparent;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: all .1s var(--cubic-bezier);
+
+  align-self: end;
+  height: 25%;
+  width: 20%;
+}
+
+.confirm-button:hover {
+  box-shadow: 0 0 8px 0 var(--dark-gray);
+  transition: all .1s var(--cubic-bezier);
 }

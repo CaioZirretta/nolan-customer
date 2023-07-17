@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Session } from "../types/Session";
+import { CreateReservation, Session } from "../types/Session";
 
 @Injectable({
   providedIn: 'root'
@@ -34,15 +34,8 @@ export class SessionService {
     return this.httpClient.get<Session[]>(`${this.url}/movie/?movieName=${name}`)
   }
 
-  add(session: Session): Observable<Session> {
-    return this.httpClient.post<Session>(this.url, session, this.headers);
-  }
-
-  edit(session: Session): Observable<Session> {
-    return this.httpClient.put<Session>(this.url, session, this.headers);
-  }
-
-  remove(id: string): Observable<Session> {
-    return this.httpClient.delete<Session>(`${this.url}/${id}`, this.headers);
+  newReservation(sessionId: string, sits: string[]): Observable<Session> {
+    const body: CreateReservation = { sessionId, sits }
+    return this.httpClient.post<Session>(`${this.url}/reservation/`, body);
   }
 }
