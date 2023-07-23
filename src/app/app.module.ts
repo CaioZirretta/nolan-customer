@@ -8,19 +8,23 @@ import { HomeComponent } from './pages/home/home.component';
 import { MatStepperModule } from "@angular/material/stepper";
 import { MovieCardComponent } from './shared/components/movie-card/movie-card.component';
 import { HttpClientModule } from "@angular/common/http";
+import { NewReservationDialogComponent } from './shared/components/new-reservation-dialog/new-reservation-dialog.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MovieCardComponent
+    MovieCardComponent,
+    NewReservationDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatStepperModule
+    MatStepperModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

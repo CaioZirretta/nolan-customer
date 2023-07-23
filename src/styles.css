@@ -70,3 +70,42 @@ button {
   border-radius: 12px;
   border: 3px solid #ffffff;
 }
+
+/* Stepper */
+.cdk-visually-hidden{
+  display: none;
+}
+
+.mat-step-icon{
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+
+}
+.mat-step-icon-selected {
+  box-shadow: 0 0 8px 0 var(--dark-gray);
+}
+
+.mat-stepper-horizontal-line{
+  border-color: var(--dark-red);
+}
+
+/* Dialog */
+.mat-mdc-dialog-container {
+  border-radius: 12px;
+  box-shadow: 0 0 60vh 60vh rgba(0,0,0, 0.75);
+}
+
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper {
+  pointer-events: none;
+  top: calc(50% - 12rem);
+  left: calc(50% - 18rem);
+  height: 24rem;
+  width: 36rem;
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 1000
+}
+
+.cdk-overlay-container:empty { display: none }

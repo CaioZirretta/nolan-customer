@@ -34,8 +34,7 @@ export class SessionService {
     return this.httpClient.get<Session[]>(`${this.url}/movie/?movieName=${name}`)
   }
 
-  newReservation(sessionId: string, sits: string[]): Observable<Session> {
-    const body: CreateReservation = { sessionId, sits }
-    return this.httpClient.post<Session>(`${this.url}/reservation/`, body);
+  newReservation(reservation: CreateReservation): Observable<Session> {
+    return this.httpClient.post<Session>(`${this.url}/reservation/`, reservation, this.headers);
   }
 }

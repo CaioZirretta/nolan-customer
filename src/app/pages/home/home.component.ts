@@ -8,6 +8,11 @@ import { Session, SessionsByDay } from "../../shared/types/Session";
 import { DateUtils, getDayPTBR } from "../../shared/utils/DateUtils";
 import { Sits } from "../../shared/constants/Sits";
 import { catchError, throwError } from "rxjs";
+import { MatDialog } from "@angular/material/dialog";
+import {
+  NewReservationDialogComponent
+} from "../../shared/components/new-reservation-dialog/new-reservation-dialog.component";
+import { UpdateService } from "../../shared/services/update.service";
 
 @Component({
   selector: 'home',
@@ -15,27 +20,37 @@ import { catchError, throwError } from "rxjs";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  protected movieList: Movie[] = [];
-  protected selectedMovie: Movie = {} as Movie;
-  protected selectedMovieSessions: SessionsByDay[] = [];
-  protected selectedSession: Session = {} as Session;
-  protected selectedSits: Record<string, boolean | 'blocked'> = {};
+  protected movieList: Movie[];
+  protected selectedMovie: Movie;
+  protected selectedMovieSessions: SessionsByDay[];
+  protected selectedSession: Session;
+  protected selectedSits: Record<string, boolean | 'blocked'>;
 
   @ViewChild("stepper", { static: true }) stepper: MatStepper;
 
-  constructor(private elementRef: ElementRef,
+  constructor(public dialog: MatDialog,
+              private elementRef: ElementRef,
               private movieService: MovieService,
               private roomService: RoomService,
-              private sessionService: SessionService,) {
+              private sessionService: SessionService,
+              private updateService: UpdateService) {
   }
 
   ngOnInit() {
     this.updateAllLists();
-    // this.selectedSits = Sits
+
+    this.updateService.updateList.subscribe(() => {
+      this.updateAllLists();
+      this.stepper.reset();
+    });
   }
 
   protected updateAllLists(): void {
     this.updateMovieList();
+    this.selectedMovie = {} as Movie;
+    this.selectedMovieSessions = [];
+    this.selectedSession = {} as Session;
+    this.selectedSits = {};
   }
 
   private updateMovieList(): void {
@@ -53,9 +68,8 @@ export class HomeComponent implements OnInit {
 
     this.sessionService.searchByMovieName(movie.name).subscribe((response: Session[]): void => {
       this.selectedMovieSessions = this.groupByDay(response);
+      this.stepper.next();
     });
-
-    this.stepper.next();
   }
 
   protected setSelectedSession(session: Session): void {
@@ -65,9 +79,9 @@ export class HomeComponent implements OnInit {
 
     this.selectedSession.sits.forEach(sit => {
       this.selectedSits[sit] = 'blocked';
+      this.stepper.next();
     });
 
-    this.stepper.next();
   }
 
   protected toggleSelectedSit(sit: any, s: Event): void {
@@ -84,11 +98,11 @@ export class HomeComponent implements OnInit {
   }
 
   protected isMovieSelected(): boolean {
-    return !!this.selectedMovie;
+    return !!this.selectedMovie.id;
   }
 
   protected isSessionSelected(): boolean {
-    return !!this.selectedSession;
+    return !!this.selectedSession.id;
   }
 
   protected isSitsSelected(): boolean {
@@ -160,19 +174,32 @@ export class HomeComponent implements OnInit {
     const sessionId: string = this.selectedSession.id!;
     const sits: string[] = this.selectedSitsToList();
 
-    this.sessionService.newReservation(sessionId, sits).pipe(
-      catchError(error => {
-        return throwError(error);
-      })
-    ).subscribe();
+    const dialogRef = this.dialog.open(NewReservationDialogComponent,
+      { data: { sessionId, sits } }
+    );
+
+    this.lockBody();
+
+    dialogRef.afterClosed().subscribe((response) => {
+      this.unlockBody();
+    });
+
   }
 
   protected objectKeys(object: Object = Sits): string[] {
     return Object.keys(object);
   }
 
-  protected objectValues(object: Object = Sits): string[] {
-    return Object.keys(object);
+  private lockBody() {
+    const body = this.elementRef.nativeElement.ownerDocument.body;
+    body.style.pointerEvents = 'none';
+    body.style.overflow = 'hidden';
+  }
+
+  private unlockBody() {
+    const body = this.elementRef.nativeElement.ownerDocument.body;
+    body.style.pointerEvents = 'all';
+    body.style.overflow = 'visible';
   }
 
 }
