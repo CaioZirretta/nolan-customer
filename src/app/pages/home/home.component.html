@@ -2,54 +2,55 @@
   <h1 class="home-title">Nolan</h1>
 
   <mat-stepper [linear]="true" animationDuration="500" #stepper>
-    <mat-step label="Filme" [completed]="isMovieSelected()">
-      <h2 class="step-header">Escolha seu filme</h2>
-      <section class="movies-container content-container">
-        <div *ngFor="let movie of movieList;">
-          <movie-card
-            [movie]="movie"
-            (click)="setSelectedMovie(movie)"
-          />
-        </div>
-      </section>
-    </mat-step>
+<!--    <mat-step label="Filme" [completed]="isMovieSelected()">-->
+<!--      <h2 class="step-header">Escolha seu filme</h2>-->
+<!--      <section class="movies-container content-container">-->
+<!--        <div *ngFor="let movie of movieList;">-->
+<!--          <movie-card-->
+<!--            [movie]="movie"-->
+<!--            (click)="setSelectedMovie(movie)"-->
+<!--          />-->
+<!--        </div>-->
+<!--      </section>-->
+<!--    </mat-step>-->
 
-    <mat-step label="Sessão" [completed]="isSessionSelected()">
-      <h2 class="step-header">Escolha sua sessão</h2>
+<!--    <mat-step label="Sessão" [completed]="isSessionSelected()">-->
+<!--      <h2 class="step-header">Escolha sua sessão</h2>-->
 
-      <section *ngIf="isMovieSelected()" class="content-container sessions-container">
-        <div class="selected-movie-container">
-          <h1 class="selected-movie-title">{{selectedMovie.name}}</h1>
+<!--      <section *ngIf="isMovieSelected()" class="content-container sessions-container">-->
+<!--        <div class="selected-movie-container">-->
+<!--          <h1 class="selected-movie-title">{{selectedMovie.name}}</h1>-->
 
-          <div class="selected-movie-info">
-            <p>{{selectedMovie.synopsis_expanded}}</p>
-          </div>
-        </div>
+<!--          <div class="selected-movie-info">-->
+<!--            <p>{{selectedMovie.synopsis_expanded}}</p>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="session-info-container">
-          <h2 class="session-info-title">Sessões disponíveis:</h2>
+<!--        <div class="session-info-container">-->
+<!--          <h2 class="session-info-title">Sessões disponíveis:</h2>-->
 
-          <div class="session-info" *ngFor="let info of selectedMovieSessions">
-            <div class="session-info-day">{{formatDateToDayMonthView(info.day)}}</div>
+<!--          <div class="session-info" *ngFor="let info of selectedMovieSessions">-->
+<!--            <div class="session-info-day">{{formatDateToDayMonthView(info.day)}}</div>-->
 
-            <div *ngIf="info.sessions.length > 0; else noSessionsBlock">
-              <button
-                *ngFor="let session of info.sessions"
-                class="session-info-time"
-                (click)="setSelectedSession(session)"
-              >
-                {{formatDateToTimeView(session.time)}}
-              </button>
-            </div>
+<!--            <div *ngIf="info.sessions.length > 0; else noSessionsBlock">-->
+<!--              <button-->
+<!--                *ngFor="let session of info.sessions"-->
+<!--                class="session-info-time"-->
+<!--                (click)="setSelectedSession(session)"-->
+<!--              >-->
+<!--                {{formatDateToTimeView(session.time)}}-->
+<!--              </button>-->
+<!--            </div>-->
 
-            <ng-template #noSessionsBlock class="no-session-message">Nenhuma sessão encontrada.</ng-template>
-          </div>
-        </div>
-      </section>
-    </mat-step>
+<!--            <ng-template #noSessionsBlock class="no-session-message">Nenhuma sessão encontrada.</ng-template>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </section>-->
+<!--    </mat-step>-->
 
     <mat-step label="Assento" [completed]="isSitsSelected()">
       <h2 class="step-header">Escolha seus assentos</h2>
+      <button class="confirm-sits-button" [disabled]="!isSitsSelected()" (click)="stepper.next()">Confirmar</button>
       <section *ngIf="isSessionSelected()" class="content-container sits-container">
         <div class="chosen-sits">
           <h3 class="chosen-sits-title">Assentos escolhidos:</h3>
