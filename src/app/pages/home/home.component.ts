@@ -79,9 +79,9 @@ export class HomeComponent implements OnInit {
 
     this.selectedSession.sits.forEach(sit => {
       this.selectedSits[sit] = 'blocked';
-      this.stepper.next();
     });
 
+    this.stepper.next();
   }
 
   protected toggleSelectedSit(sit: any, s: Event): void {

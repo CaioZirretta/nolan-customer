@@ -70,13 +70,18 @@
   .card-title {
     font-size: 0.75rem;
   }
-
+  .card-image{
+    height: 16rem;
+  }
   .mat-icon {
     font-size: .75rem;
   }
 }
 
 @media screen and (min-width: 1919px) {
+  .card-image{
+    height: 24rem;
+  }
   .mat-icon {
     font-size: 1.5rem;
   }
